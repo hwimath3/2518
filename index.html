@@ -3,616 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이차함수와 극한 - 10단계 변형문제 퀴즈</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <title>이차함수의 극한: 인수분해 활용</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .progress-container {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            height: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            background: linear-gradient(90deg, #00f260, #0575e6);
-            height: 100%;
-            border-radius: 25px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-text {
-            color: white;
-            text-align: center;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        .quiz-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .step-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .difficulty {
-            display: inline-block;
-            margin-left: 10px;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-        }
-
-        .difficulty.easy { background: #d4edda; color: #155724; }
-        .difficulty.medium { background: #fff3cd; color: #856404; }
-        .difficulty.hard { background: #f8d7da; color: #721c24; }
-
-        .question {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .hint-box {
-            background: #e7f3ff;
-            border: 1px solid #b6d4fe;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .hint-box.show {
-            display: block;
-        }
-
-        .hint-title {
-            color: #0d6efd;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .options {
-            display: grid;
-            gap: 12px;
-        }
-
-        .option {
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .option:hover {
-            border-color: #667eea;
-            background: #f0f0ff;
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: #e8e8ff;
-        }
-
-        .option.correct {
-            border-color: #28a745;
-            background: #d4edda;
-        }
-
-        .option.wrong {
-            border-color: #dc3545;
-            background: #f8d7da;
-        }
-
-        .option.disabled {
-            pointer-events: none;
-        }
-
-        .btn-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-hint {
-            background: #17a2b8;
-            color: white;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .solution-box {
-            background: #f0fff0;
-            border: 1px solid #98d8aa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .solution-box.show {
-            display: block;
-        }
-
-        .solution-title {
-            color: #28a745;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .result-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            display: none;
-        }
-
-        .result-card.show {
-            display: block;
-        }
-
-        .result-score {
-            font-size: 4rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .result-message {
-            font-size: 1.5rem;
-            margin: 20px 0;
-            color: #333;
-        }
-
-        .result-details {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
-        .intro-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .intro-title {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .original-problem {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #764ba2;
-        }
-
-        .concept-box {
-            background: #fff3cd;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .concept-title {
-            color: #856404;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.4rem;
-            }
-            .quiz-card, .intro-card, .result-card {
-                padding: 20px;
-            }
-            .question {
-                font-size: 1rem;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .math-display { font-size: 1.1rem; margin: 1.5rem 0; padding: 1.2rem; background-color: #ffffff; border-left: 4px solid #3b82f6; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow-x: auto; }
+        .concept-box { background-color: #eff6ff; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #dbeafe; }
+        .option-label { transition: all 0.2s; cursor: pointer; display: block; }
+        .option-label:hover { background-color: #eff6ff; transform: translateY(-2px); border-color: #3b82f6; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>이차함수와 극한 - 10단계 변형문제</h1>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
-            </div>
-            <div class="progress-text" id="progressText">시작하기를 눌러주세요</div>
-        </div>
+<body class="p-4 sm:p-8 md:p-12 text-slate-800">
+    <div id="app" class="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl p-6 sm:p-10 border border-slate-100">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 mb-2">이차함수의 극한</h1>
+        <p class="text-center text-slate-500 mb-8">인수분해를 활용한 극한 계산 10단계</p>
 
-        <!-- Intro Card -->
-        <div class="intro-card" id="introCard">
-            <div class="intro-title">원본 문제 (18번)</div>
-            <div class="original-problem">
-                <p>최고차항의 계수가 1인 두 이차함수 \(f(x)\), \(g(x)\)가</p>
-                <p>\(f(1) = 0\), \(\displaystyle\lim_{x \to 1} \frac{f(x+3) \cdot g(x)}{[f(x)]^2} = 0\)을 만족시킬 때,</p>
-                <p>\(f(5) + g(5)\)의 값은?</p>
-                <p style="margin-top: 15px;">① 14 &nbsp;&nbsp; ② 16 &nbsp;&nbsp; ③ 18 &nbsp;&nbsp; ④ 20 &nbsp;&nbsp; ⑤ 22</p>
-            </div>
+        <div id="page-study" class="page active">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">핵심 원리</h2>
             <div class="concept-box">
-                <div class="concept-title">핵심 개념</div>
-                <ul style="margin-left: 20px; line-height: 1.8;">
-                    <li>\(f(1) = 0\)이므로 \(f(x) = (x-1)(x-a)\) 형태</li>
-                    <li>분모가 \([f(x)]^2\)이므로 \(x \to 1\)에서 분모는 0으로 수렴</li>
-                    <li>극한값이 0이 되려면 분자도 0으로 수렴하고, 분자의 차수가 분모보다 높아야 함</li>
-                    <li>따라서 \(g(1) = 0\)이 필요: \(g(x) = (x-1)(x-b)\)</li>
-                </ul>
+                <h3 class="text-xl font-bold text-blue-600 mb-3">극한값이 유한인 조건</h3>
+                <p class="text-slate-700 mb-2">$\displaystyle\lim_{x \to a} \frac{f(x)}{g(x)} = L$ (유한값)이고 $g(a) = 0$이면</p>
+                <div class="math-display">$$ f(a) = 0 \text{ (분자도 0이어야 함)} $$</div>
             </div>
-            <div style="text-align: center;">
-                <button class="btn btn-primary" onclick="startQuiz()">퀴즈 시작하기</button>
+            <div class="concept-box bg-amber-50 border-amber-200">
+                <h3 class="text-xl font-bold text-amber-600 mb-3">오늘의 문제</h3>
+                <p class="text-slate-700">최고차항의 계수가 1인 이차함수 $f(x)$, $g(x)$가</p>
+                <p class="text-slate-700">$f(1)=0$, $\displaystyle\lim_{x \to 1} \frac{f(x+3) \cdot g(x)}{\{f(x)\}^2} = 0$을 만족시킬 때,</p>
+                <div class="math-display border-amber-400">$$ f(5)+g(5) \text{의 값은?} $$</div>
+                <p class="text-slate-600 text-sm">① $14$ ② $16$ ③ $18$ ④ $20$ ⑤ $22$</p>
+            </div>
+            <div class="mt-8 mb-4">
+                <label for="username-input" class="block text-sm font-medium text-slate-600 mb-1">학생 이름</label>
+                <input type="text" id="username-input" placeholder="이름을 입력하세요" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition shadow-sm outline-none">
+            </div>
+            <button onclick="startQuiz()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl mt-2 transition duration-300 shadow-lg transform hover:scale-[1.01]">문제 풀이 시작하기</button>
+        </div>
+
+        <div id="page-quiz" class="page">
+            <div id="quiz-header" class="mb-6">
+                <div class="flex justify-between items-end mb-2"><span class="text-lg font-bold text-blue-700">Step <span id="current-q-number">1</span></span><span class="text-sm text-slate-400">Total 10 Questions</span></div>
+                <div class="w-full bg-slate-100 rounded-full h-2"><div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div></div>
+            </div>
+            <div id="question-area" class="min-h-[250px] p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                <p id="question-text" class="text-xl font-medium text-slate-800 mb-8 leading-relaxed"></p>
+                <div id="options-container" class="space-y-3"></div>
+            </div>
+            <div id="feedback" class="mt-6 p-4 rounded-xl text-white font-semibold hidden"></div>
+            <div class="flex gap-3 mt-8">
+                <button onclick="prevQuestion()" id="prev-btn" class="hidden px-6 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-4 rounded-xl transition shadow-sm">이전</button>
+                <button onclick="submitAnswer()" id="submit-btn" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition shadow-md">정답 확인</button>
+                <button onclick="nextQuestion()" id="next-btn" class="hidden flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition shadow-md">다음 단계</button>
             </div>
         </div>
 
-        <!-- Quiz Card -->
-        <div class="quiz-card" id="quizCard" style="display: none;">
-            <div>
-                <span class="step-badge" id="stepBadge">Step 1</span>
-                <span class="difficulty" id="difficultyBadge">쉬움</span>
-            </div>
-            <div class="question" id="questionText"></div>
-            <div class="hint-box" id="hintBox">
-                <div class="hint-title">힌트</div>
-                <div id="hintText"></div>
-            </div>
-            <div class="options" id="optionsContainer"></div>
-            <div class="solution-box" id="solutionBox">
-                <div class="solution-title">풀이</div>
-                <div id="solutionText"></div>
-            </div>
-            <div class="btn-container">
-                <button class="btn btn-hint" id="hintBtn" onclick="showHint()">힌트 보기</button>
-                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>다음 문제</button>
-            </div>
-        </div>
-
-        <!-- Result Card -->
-        <div class="result-card" id="resultCard">
-            <div class="result-score" id="finalScore">0/10</div>
-            <div class="result-message" id="resultMessage">수고하셨습니다!</div>
-            <div class="result-details" id="resultDetails"></div>
-            <button class="btn btn-primary" onclick="restartQuiz()">다시 풀기</button>
+        <div id="page-results" class="page text-center p-8">
+            <div class="mb-6 text-6xl animate-pulse">🏆</div>
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-2">학습 완료!</h2>
+            <div class="text-7xl font-black text-blue-600 my-8"><span id="final-score">0</span><span class="text-3xl text-slate-400">/10</span></div>
+            <div id="upload-status" class="text-sm text-slate-500 mb-8 h-6 font-medium">결과 저장 중...</div>
+            <button onclick="window.location.reload()" class="bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-50 font-bold py-3 px-8 rounded-xl transition shadow-sm">다시 도전하기</button>
         </div>
     </div>
 
     <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzB5ALdepM0Tu4II9BeHGDAdaC0qd2OXJp6Ofubwjc2FZ5f1aChz9ZCb1lBxkp12Xy2/exec';
+        let currentQuestionIndex = 0, userName = "", userAnswers = [];
+
         const questions = [
-            {
-                step: 1,
-                difficulty: "easy",
-                difficultyText: "쉬움",
-                question: "최고차항의 계수가 1인 이차함수 \\(f(x)\\)가 \\(f(2) = 0\\), \\(f(0) = 6\\)을 만족시킬 때, \\(f(x)\\)를 구하시오.",
-                options: ["\\((x-2)(x+3)\\)", "\\((x-2)(x-3)\\)", "\\((x+2)(x-3)\\)", "\\((x+2)(x+3)\\)"],
-                answer: 0,
-                hint: "\\(f(2) = 0\\)이므로 \\(f(x) = (x-2)(x-a)\\) 형태입니다. \\(f(0) = 6\\)을 대입해보세요.",
-                solution: "\\(f(x) = (x-2)(x-a)\\)로 놓으면<br>\\(f(0) = (-2)(-a) = 2a = 6\\)<br>따라서 \\(a = 3\\)이고, \\(f(x) = (x-2)(x+3) = x^2 + x - 6\\)<br><br>검산: \\(f(2) = 0 \\checkmark\\), \\(f(0) = -6\\)... 잠깐, 부호 확인!<br>\\(f(0) = (0-2)(0-a) = (-2)(-a) = 2a\\)이므로 \\(a = 3\\)이면 \\(f(x) = (x-2)(x-3)\\)<br>\\(f(0) = (-2)(-3) = 6 \\checkmark\\)<br><br>정답: \\((x-2)(x-3)\\)"
-            },
-            {
-                step: 2,
-                difficulty: "easy",
-                difficultyText: "쉬움",
-                question: "\\(\\displaystyle\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}\\)의 값을 구하시오.",
-                options: ["2", "4", "0", "발산"],
-                answer: 1,
-                hint: "분자를 인수분해하면 \\(x^2 - 4 = (x-2)(x+2)\\)입니다.",
-                solution: "\\(\\displaystyle\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2} = \\lim_{x \\to 2} \\frac{(x-2)(x+2)}{x-2}\\)<br><br>\\(x \\neq 2\\)일 때 약분하면<br>\\(= \\lim_{x \\to 2} (x+2) = 4\\)"
-            },
-            {
-                step: 3,
-                difficulty: "easy",
-                difficultyText: "쉬움",
-                question: "\\(\\displaystyle\\lim_{x \\to 1} \\frac{(x-1)^3}{(x-1)^2}\\)의 값을 구하시오.",
-                options: ["0", "1", "\\(\\infty\\)", "존재하지 않음"],
-                answer: 0,
-                hint: "분자의 차수(3)가 분모의 차수(2)보다 높으면 극한값은 어떻게 될까요?",
-                solution: "\\(\\displaystyle\\lim_{x \\to 1} \\frac{(x-1)^3}{(x-1)^2} = \\lim_{x \\to 1} (x-1) = 0\\)<br><br>분자의 차수가 분모의 차수보다 높으면 극한값은 0입니다."
-            },
-            {
-                step: 4,
-                difficulty: "medium",
-                difficultyText: "보통",
-                question: "최고차항의 계수가 1인 이차함수 \\(f(x)\\)가 \\(f(1) = 0\\)을 만족시킬 때, \\(\\displaystyle\\lim_{x \\to 1} \\frac{f(x)}{x - 1}\\)이 존재하기 위한 조건은?",
-                options: ["항상 존재한다", "\\(f'(1) = 0\\)일 때만 존재", "존재하지 않는다", "\\(f(x)\\)가 \\((x-1)\\)을 인수로 가질 때만 존재"],
-                answer: 0,
-                hint: "\\(f(1) = 0\\)이면 \\(f(x) = (x-1)(x-a)\\) 형태입니다.",
-                solution: "\\(f(1) = 0\\)이므로 \\(f(x) = (x-1)(x-a)\\)로 쓸 수 있습니다.<br><br>\\(\\displaystyle\\lim_{x \\to 1} \\frac{f(x)}{x-1} = \\lim_{x \\to 1} \\frac{(x-1)(x-a)}{x-1} = \\lim_{x \\to 1} (x-a) = 1-a\\)<br><br>따라서 극한은 항상 존재합니다."
-            },
-            {
-                step: 5,
-                difficulty: "medium",
-                difficultyText: "보통",
-                question: "\\(\\displaystyle\\lim_{x \\to 1} \\frac{f(x) \\cdot g(x)}{(x-1)^2}\\)가 0이 되려면 어떤 조건이 필요한가요?<br>(단, \\(f(1) = 0\\), \\(g(1) \\neq 0\\))",
-                options: ["\\(f(x) = (x-1)^3\\)이어야 함", "\\(g(1) = 0\\)이어야 함", "\\(f(x)\\)가 \\((x-1)^2\\)을 인수로 가지고, 분자의 0의 차수가 3 이상이어야 함", "불가능함"],
-                answer: 2,
-                hint: "분모가 \\((x-1)^2\\)이므로 분자에서 \\((x-1)\\)이 최소 3번 나와야 극한값이 0이 됩니다.",
-                solution: "분모가 \\((x-1)^2\\)로 2차이므로, 극한값이 0이 되려면 분자에서 \\((x-1)\\)이 3번 이상 나와야 합니다.<br><br>\\(f(1) = 0\\)이고 \\(g(1) \\neq 0\\)이면 분자에서 \\((x-1)\\)은 1번만 나옵니다.<br><br>따라서 \\(f(x)\\)가 \\((x-1)^2\\)을 인수로 가져야 하고, 이 경우 분자에서 \\((x-1)\\)이 2번 나오므로 여전히 부족합니다.<br><br>결론: \\(f(x)\\)가 \\((x-1)^2\\)을 인수로 가지고, 추가로 \\(g(x)\\)도 \\((x-1)\\)을 인수로 가져야 합니다. 즉, 분자의 0의 차수가 3 이상이어야 합니다."
-            },
-            {
-                step: 6,
-                difficulty: "medium",
-                difficultyText: "보통",
-                question: "최고차항의 계수가 1인 이차함수 \\(f(x) = (x-1)(x-3)\\)에 대하여, \\(f(x+2)\\)를 전개하시오.",
-                options: ["\\((x+1)(x-1)\\)", "\\((x-1)(x+3)\\)", "\\((x+1)(x-5)\\)", "\\(x^2 - 1\\)"],
-                answer: 0,
-                hint: "\\(f(x+2)\\)는 \\(f(x)\\)에서 \\(x\\) 대신 \\(x+2\\)를 대입한 것입니다.",
-                solution: "\\(f(x) = (x-1)(x-3)\\)에서<br>\\(f(x+2) = ((x+2)-1)((x+2)-3)\\)<br>\\(= (x+1)(x-1)\\)<br>\\(= x^2 - 1\\)<br><br>두 표현 모두 정답이지만, 인수분해 형태로는 \\((x+1)(x-1)\\)입니다."
-            },
-            {
-                step: 7,
-                difficulty: "hard",
-                difficultyText: "어려움",
-                question: "최고차항의 계수가 1인 두 이차함수 \\(f(x)\\), \\(g(x)\\)가<br>\\(f(2) = 0\\), \\(\\displaystyle\\lim_{x \\to 2} \\frac{f(x+1) \\cdot g(x)}{[f(x)]^2} = 0\\)을 만족시킬 때,<br>\\(g(2)\\)의 값으로 가능한 것은?",
-                options: ["\\(g(2) = 5\\)", "\\(g(2) = 0\\)", "\\(g(2) = -1\\)", "아무 값이나 가능"],
-                answer: 1,
-                hint: "\\(f(2) = 0\\)이면 \\(f(x) = (x-2)(x-a)\\)입니다. 분모 \\([f(x)]^2\\)는 \\(x \\to 2\\)에서 \\((x-2)^2\\)을 포함합니다.",
-                solution: "\\(f(x) = (x-2)(x-a)\\)로 놓으면 \\([f(x)]^2 = (x-2)^2(x-a)^2\\)<br><br>\\(f(x+1) = ((x+1)-2)((x+1)-a) = (x-1)(x+1-a)\\)<br><br>\\(x \\to 2\\)일 때:<br>- 분모: \\([f(x)]^2\\)는 \\((x-2)^2\\)을 인수로 가짐 (2차)<br>- 분자: \\(f(x+1) = (x-1)(x+1-a)\\)는 \\(x=2\\)에서 0이 아님 (\\(f(3) \\neq 0\\)이면)<br><br>분자에서 \\((x-2)\\)가 2번 이상 나와야 극한이 0이 됩니다.<br>\\(f(x+1)\\)에서는 \\((x-2)\\)가 안 나오므로, \\(g(x)\\)에서 \\((x-2)^2\\)이 나와야 합니다.<br><br>하지만 \\(g(x)\\)는 이차함수이므로 최대 \\((x-2)^2\\)까지만 가능.<br>\\(g(x) = (x-2)^2\\)이면 분자는 \\((x-2)^2\\)을 포함하고, 분모도 \\((x-2)^2\\)을 포함하므로 약분되어 극한이 상수가 됩니다.<br><br>따라서 \\(g(2) = 0\\)이어야 합니다."
-            },
-            {
-                step: 8,
-                difficulty: "hard",
-                difficultyText: "어려움",
-                question: "최고차항의 계수가 1인 이차함수 \\(f(x) = (x-1)(x-3)\\)에 대하여,<br>\\(\\displaystyle\\lim_{x \\to 1} \\frac{f(x+3) \\cdot (x-1)}{[f(x)]^2}\\)의 값을 구하시오.",
-                options: ["0", "\\(\\frac{1}{4}\\)", "\\(\\frac{1}{2}\\)", "1"],
-                answer: 0,
-                hint: "\\(f(x+3) = (x+2)(x)\\)입니다. 분자와 분모에서 \\((x-1)\\)의 차수를 비교하세요.",
-                solution: "\\(f(x) = (x-1)(x-3)\\)이므로<br>\\(f(x+3) = ((x+3)-1)((x+3)-3) = (x+2)(x)\\)<br><br>\\([f(x)]^2 = [(x-1)(x-3)]^2 = (x-1)^2(x-3)^2\\)<br><br>\\(\\displaystyle\\lim_{x \\to 1} \\frac{(x+2)(x)(x-1)}{(x-1)^2(x-3)^2}\\)<br><br>\\(= \\lim_{x \\to 1} \\frac{(x+2)(x)}{(x-1)(x-3)^2}\\)<br><br>\\(x \\to 1\\)일 때 분자 \\(\\to 3 \\cdot 1 = 3\\), 분모 \\(\\to 0 \\cdot 4 = 0\\)<br><br>분모가 0으로 가므로 발산... 아니, 다시 보면:<br>분자에서 \\((x-1)\\)이 1개, 분모에서 \\((x-1)\\)이 2개이므로<br>약분 후 분모에 \\((x-1)\\)이 1개 남습니다.<br><br>따라서 \\(x \\to 1\\)일 때 분모 \\(\\to 0\\)이고, 극한은 발산합니다.<br><br>문제를 다시 검토: 분자가 \\((x-1)\\)을 더 많이 가져야 0이 됩니다.<br>현재 분자에 \\((x-1)\\)이 1개, 분모에 2개이므로 극한은 \\(\\pm\\infty\\)로 발산합니다.<br><br>정답 수정: 만약 분자에 \\((x-1)^3\\) 이상이 있어야 극한이 0이 됩니다."
-            },
-            {
-                step: 9,
-                difficulty: "hard",
-                difficultyText: "어려움",
-                question: "최고차항의 계수가 1인 두 이차함수 \\(f(x)\\), \\(g(x)\\)가<br>\\(f(1) = 0\\), \\(g(1) = 0\\), \\(\\displaystyle\\lim_{x \\to 1} \\frac{f(x+3) \\cdot g(x)}{[f(x)]^2} = 2\\)를 만족시킬 때,<br>\\(f(4)\\)의 값으로 가능한 것은? (단, \\(f(x) \\neq g(x)\\))",
-                options: ["3", "6", "9", "12"],
-                answer: 2,
-                hint: "\\(f(x) = (x-1)(x-a)\\), \\(g(x) = (x-1)(x-b)\\)로 놓고 극한을 계산하세요.",
-                solution: "\\(f(x) = (x-1)(x-a)\\), \\(g(x) = (x-1)(x-b)\\)로 놓으면<br>\\(f(x+3) = (x+2)(x+3-a)\\)<br>\\([f(x)]^2 = (x-1)^2(x-a)^2\\)<br><br>\\(\\displaystyle\\lim_{x \\to 1} \\frac{(x+2)(x+3-a)(x-1)(x-b)}{(x-1)^2(x-a)^2}\\)<br><br>\\(= \\lim_{x \\to 1} \\frac{(x+2)(x+3-a)(x-b)}{(x-1)(x-a)^2}\\)<br><br>이 극한이 존재하려면 \\(x+3-a = 0\\)일 때 \\(x = a-3\\)이고, \\(x = 1\\)에서 분자가 0이어야 합니다.<br>즉, \\(a-3 = 1\\)이면 \\(a = 4\\).<br><br>\\(a = 4\\)이면: \\(f(x) = (x-1)(x-4)\\)<br>\\(f(x+3) = (x+2)(x-1)\\)<br><br>\\(\\displaystyle\\lim_{x \\to 1} \\frac{(x+2)(x-1)(x-1)(x-b)}{(x-1)^2(x-4)^2} = \\lim_{x \\to 1} \\frac{(x+2)(x-b)}{(x-4)^2}\\)<br><br>\\(= \\frac{3 \\cdot (1-b)}{9} = \\frac{3(1-b)}{9} = \\frac{1-b}{3} = 2\\)<br><br>\\(1-b = 6\\), \\(b = -5\\), \\(g(x) = (x-1)(x+5)\\)<br><br>\\(f(4) = (4-1)(4-4) = 0\\)... 틀림. 다시 계산.<br><br>\\(f(x) = (x-1)(x-4)\\)이면 \\(f(4) = 3 \\cdot 0 = 0\\)<br><br>다른 접근: \\(f(4) = 9\\)가 되려면 \\(f(x) = (x-1)(x-a)\\)에서<br>\\(f(4) = 3(4-a) = 9\\), \\(4-a = 3\\), \\(a = 1\\)이면 \\(f(x) = (x-1)^2\\)<br><br>이 경우 분자에서 \\((x-1)^4\\)이 나와 극한 조건을 만족할 수 있습니다."
-            },
-            {
-                step: 10,
-                difficulty: "hard",
-                difficultyText: "어려움 (원본과 유사)",
-                question: "최고차항의 계수가 1인 두 이차함수 \\(f(x)\\), \\(g(x)\\)가<br>\\(f(1) = 0\\), \\(\\displaystyle\\lim_{x \\to 1} \\frac{f(x+3) \\cdot g(x)}{[f(x)]^2} = 0\\)을 만족시킬 때,<br>\\(f(5) + g(5)\\)의 값은?",
-                options: ["14", "16", "18", "20", "22"],
-                answer: 1,
-                hint: "\\(f(1) = 0\\)이므로 \\(f(x) = (x-1)(x-a)\\). 극한이 0이 되려면 분자에서 \\((x-1)\\)이 3번 이상 나와야 합니다.",
-                solution: "\\(f(x) = (x-1)(x-a)\\)로 놓으면<br>\\(f(x+3) = (x+2)(x+3-a)\\)<br>\\([f(x)]^2 = (x-1)^2(x-a)^2\\)<br><br>극한이 0이 되려면 분자에서 \\((x-1)\\)이 분모(2개)보다 많아야 합니다.<br><br>Case 1: \\(f(x+3)\\)이 \\((x-1)\\)을 인수로 가짐<br>\\(x+2 = x-1\\) 불가능, \\(x+3-a = x-1\\)이면 \\(a = 4\\)<br>\\(a = 4\\): \\(f(x) = (x-1)(x-4)\\), \\(f(x+3) = (x+2)(x-1)\\)<br><br>이제 \\(g(x)\\)도 \\((x-1)\\)을 인수로 가져야 극한이 0이 됩니다.<br>\\(g(x) = (x-1)(x-b)\\)로 놓으면<br><br>\\(\\displaystyle\\lim_{x \\to 1} \\frac{(x+2)(x-1)(x-1)(x-b)}{(x-1)^2(x-4)^2}\\)<br>\\(= \\lim_{x \\to 1} \\frac{(x+2)(x-b)}{(x-4)^2} = \\frac{3(1-b)}{9} = \\frac{1-b}{3}\\)<br><br>이것이 0이 되려면 \\(b = 1\\), 즉 \\(g(x) = (x-1)^2\\)<br><br>따라서 \\(f(x) = (x-1)(x-4) = x^2 - 5x + 4\\)<br>\\(g(x) = (x-1)^2 = x^2 - 2x + 1\\)<br><br>\\(f(5) = 16 - 25 + 4 = -5\\)... 다시: \\(f(5) = (5-1)(5-4) = 4 \\cdot 1 = 4\\)<br>\\(g(5) = (5-1)^2 = 16\\)<br><br>\\(f(5) + g(5) = 4 + 16 = 20\\)... 하지만 정답은 16이어야 하므로 다시 검토.<br><br>실제 정답: \\(f(5) + g(5) = 16\\)"
-            }
+            { q: "$f(1) = 0$이고 최고차항의 계수가 $1$인 이차함수 $f(x)$의 형태는?", options: ["$f(x) = (x-1)(x-a)$", "$f(x) = (x+1)(x-a)$", "$f(x) = x^2 - 1$", "$f(x) = (x-1)^2$"], ans: "$f(x) = (x-1)(x-a)$", exp: "$f(1)=0$이므로 $(x-1)$을 인수로 가지고, 최고차 계수가 $1$이므로 $f(x)=(x-1)(x-a)$" },
+            { q: "$x \\to 1$일 때 분모 $\\{f(x)\\}^2$는 어떤 값으로 가는가?", options: ["$0$", "$\\infty$", "$1$", "$-1$"], ans: "$0$", exp: "$f(1)=0$이므로 $\\{f(1)\\}^2 = 0$" },
+            { q: "극한값이 $0$ (유한)이 되려면 분자가 어떻게 되어야 하는가?", options: ["분자가 분모보다 빠르게 $0$으로 가야 함", "분자가 $0$이 아니어야 함", "분자 = 분모", "분자가 $\\infty$"], ans: "분자가 분모보다 빠르게 $0$으로 가야 함", exp: "극한값이 $0$이 되려면 분자의 $(x-1)$ 차수가 분모보다 높아야 함" },
+            { q: "$x=1$일 때, $f(x+3) = f(4)$의 값은?", options: ["$(4-1)(4-a) = 3(4-a)$", "$0$", "$f(4) = 16$", "$4-a$"], ans: "$(4-1)(4-a) = 3(4-a)$", exp: "$f(4) = (4-1)(4-a) = 3(4-a)$" },
+            { q: "분모 $\\{f(x)\\}^2$에서 $(x-1)$의 차수는?", options: ["$2$", "$1$", "$4$", "$0$"], ans: "$2$", exp: "$f(x) = (x-1)(x-a)$이므로 $\\{f(x)\\}^2$에서 $(x-1)^2$이 있음" },
+            { q: "극한값이 $0$이 되려면 $g(x)$가 어떤 조건을 만족해야 하는가?", options: ["$g(1) = 0$", "$g(1) \\neq 0$", "$g(4) = 0$", "$g(x)$가 상수"], ans: "$g(1) = 0$", exp: "분자에 $(x-1)^3$ 이상의 차수가 필요하므로 $g(1) = 0$이어야 함" },
+            { q: "$g(1) = 0$이고 최고차 계수가 $1$인 이차함수 $g(x)$의 형태는?", options: ["$g(x) = (x-1)(x-b)$", "$g(x) = x^2-1$", "$g(x) = (x-1)^2$", "$g(x) = x(x-1)$"], ans: "$g(x) = (x-1)(x-b)$", exp: "$g(1)=0$이므로 $g(x) = (x-1)(x-b)$" },
+            { q: "극한값이 $0$이 되기 위한 추가 조건을 분석하면, $f(4) = 0$인지 아닌지?", options: ["$f(4) = 0$이어야 함", "$f(4) \\neq 0$이어야 함", "상관없음", "$f(4) = 1$"], ans: "$f(4) = 0$이어야 함", exp: "분자 전체가 $(x-1)^3$이 되려면 $f(4)=0$, 즉 $a=4$" },
+            { q: "**[계산]** $f(x) = (x-1)(x-4)$, $g(x) = (x-1)(x-b)$일 때, $f(5) = ?$", options: ["$4$", "$5$", "$16$", "$20$"], ans: "$4$", exp: "$f(5) = (5-1)(5-4) = 4 \\times 1 = 4$" },
+            { q: "**[심화]** $g(x) = (x-1)(x-b)$에서 $b$를 자유롭게 설정 가능. $b=1$이면 $g(5) = ?$이고, $f(5)+g(5)$는?", options: ["① $14$", "② $16$", "③ $18$", "④ $20$"], ans: "④ $20$", exp: "$g(x)=(x-1)^2$이면 $g(5)=16$. $f(5)+g(5) = 4+16 = 20$" }
         ];
 
-        let currentQuestion = 0;
-        let score = 0;
-        let answered = false;
-        let hintUsed = [];
-        let answers = [];
-
-        function startQuiz() {
-            document.getElementById('introCard').style.display = 'none';
-            document.getElementById('quizCard').style.display = 'block';
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = questions[currentQuestion];
-            document.getElementById('stepBadge').textContent = `Step ${q.step}`;
-            document.getElementById('difficultyBadge').textContent = q.difficultyText;
-            document.getElementById('difficultyBadge').className = `difficulty ${q.difficulty}`;
-            document.getElementById('questionText').innerHTML = q.question;
-            document.getElementById('hintText').innerHTML = q.hint;
-            document.getElementById('solutionText').innerHTML = q.solution;
-
-            document.getElementById('hintBox').classList.remove('show');
-            document.getElementById('solutionBox').classList.remove('show');
-            document.getElementById('hintBtn').disabled = false;
-            document.getElementById('nextBtn').disabled = true;
-
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-
-            q.options.forEach((option, index) => {
-                const div = document.createElement('div');
-                div.className = 'option';
-                div.innerHTML = option;
-                div.onclick = () => selectOption(index);
-                optionsContainer.appendChild(div);
-            });
-
-            answered = false;
-
-            const progress = ((currentQuestion) / questions.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${currentQuestion + 1} / ${questions.length}`;
-
-            MathJax.typesetPromise();
-        }
-
-        function selectOption(index) {
-            if (answered) return;
-            answered = true;
-
-            const q = questions[currentQuestion];
-            const options = document.querySelectorAll('.option');
-
-            options.forEach((opt, i) => {
-                opt.classList.add('disabled');
-                if (i === q.answer) {
-                    opt.classList.add('correct');
-                } else if (i === index && index !== q.answer) {
-                    opt.classList.add('wrong');
-                }
-            });
-
-            if (index === q.answer) {
-                score++;
-                answers.push({ step: q.step, correct: true });
-            } else {
-                answers.push({ step: q.step, correct: false });
-            }
-
-            document.getElementById('solutionBox').classList.add('show');
-            document.getElementById('nextBtn').disabled = false;
-
-            MathJax.typesetPromise();
-        }
-
-        function showHint() {
-            document.getElementById('hintBox').classList.add('show');
-            document.getElementById('hintBtn').disabled = true;
-            hintUsed.push(currentQuestion);
-            MathJax.typesetPromise();
-        }
-
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion >= questions.length) {
-                showResults();
-            } else {
-                loadQuestion();
-            }
-        }
-
-        function showResults() {
-            document.getElementById('quizCard').style.display = 'none';
-            document.getElementById('resultCard').classList.add('show');
-
-            document.getElementById('progressBar').style.width = '100%';
-            document.getElementById('progressText').textContent = '완료!';
-
-            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
-
-            let message = '';
-            const percentage = (score / questions.length) * 100;
-            if (percentage >= 90) message = '훌륭합니다! 이차함수와 극한을 완벽하게 이해하고 있습니다!';
-            else if (percentage >= 70) message = '잘 했습니다! 조금만 더 연습하면 완벽해질 거예요!';
-            else if (percentage >= 50) message = '괜찮아요! 틀린 문제를 복습해보세요.';
-            else message = '기초 개념부터 다시 복습해보세요!';
-
-            document.getElementById('resultMessage').textContent = message;
-
-            let detailsHtml = '';
-            answers.forEach((a, i) => {
-                const icon = a.correct ? '✓' : '✗';
-                const color = a.correct ? '#28a745' : '#dc3545';
-                detailsHtml += `<div class="result-item">
-                    <span>Step ${a.step}</span>
-                    <span style="color: ${color}; font-weight: bold;">${icon}</span>
-                </div>`;
-            });
-            document.getElementById('resultDetails').innerHTML = detailsHtml;
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            answered = false;
-            hintUsed = [];
-            answers = [];
-
-            document.getElementById('resultCard').classList.remove('show');
-            document.getElementById('introCard').style.display = 'block';
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('progressText').textContent = '시작하기를 눌러주세요';
-        }
+        userAnswers = new Array(questions.length).fill(null);
+        function renderMath(element) { renderMathInElement(element || document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}], throwOnError: false }); }
+        function showPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+        function startQuiz() { userName = document.getElementById('username-input').value.trim(); if (!userName) return alert("이름을 입력해주세요!"); showPage('page-quiz'); loadQuestion(); }
+        function loadQuestion() { const q = questions[currentQuestionIndex]; document.getElementById('current-q-number').textContent = currentQuestionIndex + 1; document.getElementById('question-text').innerHTML = q.q; document.getElementById('progress-bar').style.width = `${(currentQuestionIndex / questions.length) * 100}%`; const optContainer = document.getElementById('options-container'), prevBtn = document.getElementById('prev-btn'), submitBtn = document.getElementById('submit-btn'), nextBtn = document.getElementById('next-btn'), feedbackDiv = document.getElementById('feedback'); optContainer.innerHTML = ''; const existingAnswer = userAnswers[currentQuestionIndex]; q.options.forEach(opt => { const label = document.createElement('label'); label.className = "option-label block p-4 bg-white border border-slate-200 rounded-xl shadow-sm"; const isChecked = existingAnswer && existingAnswer.selected === opt; label.innerHTML = `<div class="flex items-center"><input type="radio" name="quiz-opt" value="${opt}" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 mr-3" ${isChecked ? 'checked' : ''} ${existingAnswer ? 'disabled' : ''}><span class="text-lg ${existingAnswer ? 'text-slate-600' : ''}">${opt}</span></div>`; optContainer.appendChild(label); }); prevBtn.classList.toggle('hidden', currentQuestionIndex === 0); if (existingAnswer) { showFeedbackUI(existingAnswer.isCorrect, q.ans, q.exp); submitBtn.classList.add('hidden'); nextBtn.classList.remove('hidden'); } else { feedbackDiv.classList.add('hidden'); submitBtn.classList.remove('hidden'); nextBtn.classList.add('hidden'); } renderMath(document.getElementById('question-area')); }
+        function showFeedbackUI(isCorrect, ans, exp) { const fb = document.getElementById('feedback'); fb.classList.remove('hidden'); fb.className = `mt-6 p-5 rounded-xl text-white shadow-lg ${isCorrect ? 'bg-emerald-500' : 'bg-rose-500'}`; fb.innerHTML = `<div class="flex items-center mb-2"><span class="text-2xl mr-2">${isCorrect ? '🎉' : '❌'}</span><span class="text-lg font-bold">${isCorrect ? "정답입니다!" : "아쉽네요."}</span></div>${!isCorrect ? `<div class="mb-2">정답: <strong>${ans}</strong></div>` : ''}<div class="text-sm font-normal opacity-90 border-t border-white/20 pt-2 mt-2 leading-relaxed">${exp}</div>`; renderMath(fb); }
+        function submitAnswer() { const selected = document.querySelector('input[name="quiz-opt"]:checked'); if (!selected) return alert("보기를 선택해주세요!"); const q = questions[currentQuestionIndex]; const clean = (s) => s.replace(/\s/g, ''); const isCorrect = clean(selected.value) === clean(q.ans); userAnswers[currentQuestionIndex] = { selected: selected.value, isCorrect: isCorrect }; showFeedbackUI(isCorrect, q.ans, q.exp); document.querySelectorAll('input[name="quiz-opt"]').forEach(r => r.disabled = true); document.getElementById('submit-btn').classList.add('hidden'); document.getElementById('next-btn').classList.remove('hidden'); }
+        function prevQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; loadQuestion(); } }
+        function nextQuestion() { currentQuestionIndex++; if (currentQuestionIndex < questions.length) { loadQuestion(); } else { finishQuiz(); } }
+        function finishQuiz() { showPage('page-results'); const finalScore = userAnswers.filter(a => a && a.isCorrect).length; const scoreDisplay = document.getElementById('final-score'); let currentDisplayScore = 0; const interval = setInterval(() => { if (currentDisplayScore >= finalScore) { clearInterval(interval); scoreDisplay.textContent = finalScore; } else { currentDisplayScore++; scoreDisplay.textContent = currentDisplayScore; } }, 100); if(finalScore === 0) scoreDisplay.textContent = 0; sendResult(finalScore); }
+        function sendResult(finalScore) { const status = document.getElementById('upload-status'); const data = { name: userName, score: finalScore, quizTitle: "2518-이차함수극한인수분해", date: new Date().toLocaleString() }; fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) }).then(() => { status.textContent = "결과가 안전하게 저장되었습니다."; status.classList.replace('text-slate-500', 'text-emerald-600'); }).catch(() => { status.textContent = "결과 저장에 실패했습니다."; status.classList.replace('text-slate-500', 'text-rose-600'); }); }
+        window.onload = () => renderMath();
     </script>
 </body>
 </html>
